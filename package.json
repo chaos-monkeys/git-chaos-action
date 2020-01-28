@@ -1,0 +1,31 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start:local": "node -r dotenv/config main.js",
+    "build": "ncc build -m main.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@actions/core": "^1.2.0",
+    "@octokit/rest": "^16.35.0",
+    "aws-sdk": "^2.590.0"
+  },
+  "devDependencies": {
+    "@zeit/ncc": "^0.20.5",
+    "dotenv": "^8.2.0",
+    "eslint": "^6.1.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.18.2",
+    "husky": "^3.1.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run build && git add ./dist/index.js"
+    }
+  }
+}

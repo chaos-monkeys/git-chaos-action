@@ -1,0 +1,17 @@
+name: Git Chaos
+# Triggers on pull request changes
+on: [pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+      - name: Git Chaos PR
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          AWS_ACCESS_KEY: ${{ secrets.ACTIONS_AWS_ACCESS_KEY }}
+          AWS_SECRET_KEY: ${{ secrets.ACTIONS_AWS_SECRET_KEY }}
+        uses: ./.github/actions

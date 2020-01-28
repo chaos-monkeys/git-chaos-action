@@ -1,0 +1,6 @@
+name: Git Chaos PR
+description: Gets commits from a PR, saves it to S3, and posts a comment on the PR
+author: chaos-monkeys
+runs:
+  using: "node12"
+  main: "../../dist/index.js"
