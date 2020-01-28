@@ -9,14 +9,17 @@ const getCollaborators = async ({ octokit, owner, repo }) => {
     });
 
   return projectCollaborators.reduce((allCollaborators, collaborator) => {
-    // FIXME: eslint error
-    // eslint-disable-next-line no-param-reassign
-    allCollaborators[collaborator.id] = {
-      username: collaborator.login,
-      avatar_url: collaborator.avatar_url,
-      html_url: collaborator.html_url,
+    const { username, avatar_url, html_url } = collaborator;
+
+    const clone = { ...allCollaborators };
+
+    clone[collaborator.id] = {
+      username,
+      avatar_url,
+      html_url,
     };
-    return allCollaborators;
+
+    return clone;
   }, {});
 };
 
