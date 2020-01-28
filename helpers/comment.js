@@ -5,11 +5,11 @@ const createComment = async ({
   owner,
   repo,
   message,
-  issue_number: issueNumber,
+  issue_number,
 }) => octokit.issues.createComment({
   owner,
   repo,
-  issue_number: issueNumber,
+  issue_number,
   body: message,
 }).catch((err) => {
   core.debug(err);
