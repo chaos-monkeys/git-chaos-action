@@ -6,7 +6,5 @@ const buildHistoryIndex = (history) => history.reduce((historyIndex, val, idx) =
   return clone;
 }, {});
 
-module.exports = {
-  getCurrentTimestamp,
-  buildHistoryIndex,
-};
+
+export { getCurrentTimestamp, buildHistoryIndex };

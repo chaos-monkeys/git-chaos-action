@@ -1,5 +1,5 @@
-const core = require('@actions/core');
-const querystring = require('querystring');
+import core = require('@actions/core');
+import querystring = require('querystring');
 
 const getCommits = async ({
   octokit,
@@ -31,6 +31,5 @@ const getCommits = async ({
   return Promise.all(detailedCommits);
 };
 
-module.exports = {
-  getCommits,
-};
+export { getCommits };
+

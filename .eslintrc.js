@@ -7,7 +7,9 @@ module.exports = {
       '@typescript-eslint/parser': ['.ts', '.tsx'],
     },
     'import/resolver': {
-      typescript: {},
+      node: {
+        extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'] // https://github.com/benmosher/eslint-plugin-import/issues/1615
+      }
     },
   },
   rules: {
@@ -20,6 +22,15 @@ module.exports = {
       { devDependencies: ['**/test.tsx', '**/test.ts'] },
     ],
     '@typescript-eslint/indent': [2, 2],
-    'import/prefer-default-export)': false,
+    'import/extensions': ['error', 'ignorePackages', { // https://github.com/benmosher/eslint-plugin-import/issues/1615
+      js: 'never',
+      mjs: 'never',
+      jsx: 'never',
+      ts: 'never',
+      tsx: 'never',
+    }],
+    "camelcase": "off",
+    "@typescript-eslint/camelcase": ["error", { "properties": "never" }]
+    'import/prefer-default-export)': 0, // Ollie: I _hate_ default exports, so this one's a personal thing
   },
 };

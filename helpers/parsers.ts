@@ -27,6 +27,4 @@ const formatCommits = (commit) => ({
   url: parseUrl(commit),
 });
 
-module.exports = {
-  formatCommits,
-};
+export { formatCommits };

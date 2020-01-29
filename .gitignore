@@ -108,6 +108,8 @@ public/
 # End of https://www.gitignore.io/api/node,visualstudiocode
 
 temp/
+.DS_Store
+# typescript output folder
+out
 .vscode/*
 !.vscode/launch.json
-.DS_Store

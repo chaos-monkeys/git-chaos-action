@@ -4,10 +4,10 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "start:local": "tsc -p main.ts",
-    "lint": "ncc build -m main.ts",
-    "build": "ncc build -m main.ts",
-    "debug": "tsc --nolazy --inspect-brk=9229 main.ts"
+    "start:local": "node out/main.js",
+    "build:local": "tsc -w --p tsconfig.json",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "build": "ncc build -m main.ts"
   },
   "author": "chaos monkeys",
   "license": "ISC",
@@ -15,15 +15,18 @@
     "@actions/core": "^1.2.0",
     "@octokit/rest": "^16.35.0",
     "aws-sdk": "^2.590.0",
-    "typescript": "^3.7.5"
+    "typescript": "^3.7.5",
+    "dotenv": "^8.2.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^8.3.5",
     "@commitlint/config-conventional": "^8.3.4",
+    "@types/eslint": "^6.1.7",
+    "@types/eslint-plugin-prettier": "^2.2.0",
+    "@types/prettier": "^1.19.0",
     "@typescript-eslint/eslint-plugin": "^2.18.0",
     "@typescript-eslint/parser": "^2.18.0",
     "@zeit/ncc": "^0.20.5",
-    "dotenv": "^8.2.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-prettier": "^6.10.0",

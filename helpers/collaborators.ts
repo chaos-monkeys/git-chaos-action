@@ -1,4 +1,4 @@
-const core = require('@actions/core');
+import core = require('@actions/core');
 
 const getCollaborators = async ({ octokit, owner, repo }) => {
   const projectCollaborators = await octokit
@@ -23,6 +23,4 @@ const getCollaborators = async ({ octokit, owner, repo }) => {
   }, {});
 };
 
-module.exports = {
-  getCollaborators,
-};
+export { getCollaborators };

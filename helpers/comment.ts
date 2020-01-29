@@ -1,4 +1,4 @@
-const core = require('@actions/core');
+import core = require('@actions/core');
 
 const createComment = async ({
   octokit,
@@ -15,6 +15,4 @@ const createComment = async ({
   core.debug(err);
 });
 
-module.exports = {
-  createComment,
-};
+export { createComment };

@@ -1,8 +1,7 @@
-const S3 = require('aws-sdk/clients/s3');
+import S3 = require('aws-sdk/clients/s3');
 
 // TODO: figure out where this should go
 const BUCKET = 'gitchaos';
-
 
 const uploadHistory = async ({
   accessKeyId,
@@ -26,6 +25,4 @@ const uploadHistory = async ({
   return location;
 };
 
-module.exports = {
-  uploadHistory,
-};
+export { uploadHistory };

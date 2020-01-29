@@ -1,7 +1,7 @@
-const core = require('@actions/core');
+import { formatCommits } from './parsers';
+import { getCommits } from './commits';
 
-const { formatCommits } = require('./parsers');
-const { getCommits } = require('./commits');
+import core = require('@actions/core');
 
 const getBranchName = async ({
   octokit, owner, repo, sha,
@@ -62,7 +62,4 @@ const getCodeHistory = async ({
   return commits.map(formatCommits);
 };
 
-module.exports = {
-  getCodeHistory,
-  getBranchName,
-};
+export { getCodeHistory, getBranchName };
