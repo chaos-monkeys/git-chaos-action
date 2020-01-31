@@ -19,7 +19,7 @@ const uploadHistory = async ({
   });
 
   const upload = s3.upload({
-    Bucket: process.env.AWS_S3_BUCKET,
+    Bucket: process.env.AWS_BUCKET,
     Body: JSON.stringify(body),
     Key,
   }).promise();
