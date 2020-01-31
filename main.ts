@@ -1,5 +1,3 @@
-// TOOD: add islocal check for debugging core vs log
-
 import { getCodeHistory, getBranchName } from './helpers/history';
 import { createComment } from './helpers/comment';
 import { uploadHistory } from './helpers/aws';
