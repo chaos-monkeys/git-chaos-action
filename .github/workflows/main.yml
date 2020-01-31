@@ -14,4 +14,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           AWS_ACCESS_KEY: ${{ secrets.ACTIONS_AWS_ACCESS_KEY }}
           AWS_SECRET_KEY: ${{ secrets.ACTIONS_AWS_SECRET_KEY }}
+          AWS_BUCKET: ${{ secrets.ACTIONS_AWS_BUCKET }}
         uses: ./.github/actions
