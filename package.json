@@ -4,6 +4,7 @@
   "description": "",
   "main": "main.js",
   "scripts": {
+    "start": "ncc run ./dist/index.js",
     "start:local": "node out/main.js",
     "build:local": "tsc -w --p tsconfig.json",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
