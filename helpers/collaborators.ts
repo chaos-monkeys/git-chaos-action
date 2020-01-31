@@ -1,22 +1,40 @@
-import core = require('@actions/core');
+import * as Octokit from '@octokit/rest';
+import { exit } from './utils';
+import { Collaborator } from '../interfaces/collaborators';
 
-const getCollaborators = async ({ octokit, owner, repo }) => {
+const getCollaborators = async ({
+  octokit,
+  owner,
+  repo,
+}: {
+  octokit: Octokit;
+  owner: string;
+  repo: string;
+}): Promise<Array<Collaborator>> => {
   const projectCollaborators = await octokit
     .paginate('GET /repos/:owner/:repo/collaborators', { owner, repo })
     .catch((error) => {
-      core.debug('getCollaborators');
-      core.setFailed(error.message);
+      exit('getCollaborators', error.message);
     });
 
-  return projectCollaborators.reduce((allCollaborators, collaborator) => {
-    const { username, avatar_url, html_url } = collaborator;
+  if (!Array.isArray(projectCollaborators)) {
+    exit('getCollaborators', 'Could not find collaborators');
+    return null;
+  }
 
-    const clone = { ...allCollaborators };
+  return projectCollaborators.reduce((collaborators, collaborator) => {
+    const {
+      username,
+      avatar_url: avatarUrl,
+      html_url: htmlUrl,
+    } = collaborator;
+
+    const clone = { ...collaborators };
 
     clone[collaborator.id] = {
       username,
-      avatar_url,
-      html_url,
+      avatar_url: avatarUrl,
+      html_url: htmlUrl,
     };
 
     return clone;

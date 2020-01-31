@@ -1,4 +1,10 @@
-const parseFiles = (commit) => commit.files.map((file) => ({
+import {
+  RawCommit, File, Stats, Author2, Committer2,
+} from '../interfaces/commit';
+import { ParsedFile } from '../interfaces/parser';
+import { FormattedCommit } from '../interfaces/formattedCommit';
+
+const parseFiles = (commit: RawCommit): Array<ParsedFile> => commit.files.map((file: File) => ({
   filename: file.filename,
   status: file.status,
   additions: file.additions,
@@ -7,17 +13,17 @@ const parseFiles = (commit) => commit.files.map((file) => ({
   raw_url: file.raw_url,
 }));
 
-const parseStats = (commit) => commit.stats;
+const parseStats = (commit: RawCommit): Stats => commit.stats;
 
-const parseMessage = (commit) => commit.commit.message;
+const parseMessage = (commit: RawCommit): string => commit.commit.message;
 
-const parseUrl = (commit) => commit.commit.url;
+const parseUrl = (commit: RawCommit): string => commit.commit.url;
 
-const parseAuthor = (commit) => commit.author;
+const parseAuthor = (commit: RawCommit): Author2 => commit.author;
 
-const parseCommitter = (commit) => commit.committer;
+const parseCommitter = (commit: RawCommit): Committer2 => commit.committer;
 
-const formatCommits = (commit) => ({
+const formatCommits = (commit: RawCommit): FormattedCommit => ({
   sha: commit.sha,
   author: parseAuthor(commit),
   committer: parseCommitter(commit),

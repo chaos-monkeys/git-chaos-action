@@ -1,4 +1,5 @@
-import core = require('@actions/core');
+import * as Octokit from '@octokit/rest';
+import { exit } from './utils';
 
 const createComment = async ({
   octokit,
@@ -6,13 +7,20 @@ const createComment = async ({
   repo,
   message,
   issue_number: issueNumber,
-}) => octokit.issues.createComment({
+}: {
+  octokit: Octokit;
+  owner: string;
+  repo: string;
+  message: string;
+  issue_number: string;
+// eslint-disable-next-line max-len
+}): Promise<void | Octokit.Response<Octokit.IssuesCreateCommentResponse>> => octokit.issues.createComment({
   owner,
   repo,
-  issue_number: issueNumber,
+  issue_number: Number(issueNumber), // https://github.com/probot/probot/issues/917
   body: message,
-}).catch((err) => {
-  core.debug(err);
+}).catch((error) => {
+  exit('CreateComment', error);
 });
 
 export { createComment };

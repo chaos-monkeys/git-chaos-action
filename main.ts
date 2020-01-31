@@ -1,8 +1,13 @@
+// TOOD: add islocal check for debugging core vs log
+
 import { getCodeHistory, getBranchName } from './helpers/history';
 import { createComment } from './helpers/comment';
 import { uploadHistory } from './helpers/aws';
 import { getCollaborators } from './helpers/collaborators';
 import { getCurrentTimestamp, buildHistoryIndex } from './helpers/utils';
+
+import core = require('@actions/core');
+
 import Octokit = require('@octokit/rest');
 
 require('dotenv').config();
@@ -20,7 +25,7 @@ const {
 const [GIT_OWNER, GIT_REPO] = GITHUB_REPOSITORY.split('/');
 const issueNumber = GITHUB_REF.split('/')[2];
 
-(async () => {
+async function run(): Promise<true> {
   const octokit = new Octokit({
     auth: GITHUB_TOKEN,
   });
@@ -37,7 +42,7 @@ const issueNumber = GITHUB_REF.split('/')[2];
     }),
   });
 
-  const responseBuilder = {
+  const body = {
     meta: {
       repo_name: GIT_REPO,
       repo_owner: GIT_OWNER,
@@ -56,7 +61,7 @@ const issueNumber = GITHUB_REF.split('/')[2];
   const path = await uploadHistory({
     accessKeyId: AWS_ACCESS_KEY,
     secretAccessKey: AWS_SECRET_KEY,
-    body: responseBuilder,
+    body,
     sha: GITHUB_SHA,
   });
 
@@ -69,5 +74,8 @@ const issueNumber = GITHUB_REF.split('/')[2];
     message: `Git history uploaded to ${path}`,
   });
 
+  core.debug('git-chaos-action completed');
   return true;
-})();
+}
+
+run();

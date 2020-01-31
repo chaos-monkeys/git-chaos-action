@@ -1,4 +1,8 @@
-import core = require('@actions/core');
+import * as Octokit from '@octokit/rest';
+// FIXME: I _think_ if I find the right Octokit type, I can remove this
+import { RawCommit } from '../interfaces/commit';
+import { exit } from './utils';
+
 import querystring = require('querystring');
 
 const getCommits = async ({
@@ -6,7 +10,12 @@ const getCommits = async ({
   owner,
   repo,
   sha,
-}) => {
+}: {
+  octokit: Octokit;
+  owner: string;
+  repo: string;
+  sha: string;
+}): Promise<Array<RawCommit>> => {
   const qs = querystring.stringify({ sha });
 
   // by using a query string that's the name of a branch - we can get all the commits
@@ -14,17 +23,20 @@ const getCommits = async ({
   const commits = await octokit
     .paginate(`GET /repos/:owner/:repo/commits?${qs}`, { owner, repo })
     .catch((error) => {
-      core.debug('getAllCommits');
-      core.setFailed(error.message);
+      exit('getAllCommits', error.message);
     });
+
+  if (!Array.isArray(commits)) {
+    exit('getCommits', 'Unable to find commits');
+    return null;
+  }
 
   // make the detailed requests one by one
   const detailedCommits = commits.map((commit) => octokit
     .request(`GET /repos/:owner/:repo/commits/${commit.sha}`, { owner, repo })
     .then((c) => c.data)
     .catch((error) => {
-      core.debug('detailedCommits');
-      core.setFailed(error.message);
+      exit('detailedCommits', error.message);
     }));
 
   // make sure all the requests have finished before returning
@@ -32,4 +44,3 @@ const getCommits = async ({
 };
 
 export { getCommits };
-

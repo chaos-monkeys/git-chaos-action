@@ -30,7 +30,8 @@ module.exports = {
       tsx: 'never',
     }],
     "camelcase": "off",
-    "@typescript-eslint/camelcase": ["error", { "properties": "never" }]
-    'import/prefer-default-export)': 0, // Ollie: I _hate_ default exports, so this one's a personal thing
+    "@typescript-eslint/camelcase": ["error", { "properties": "never" }],
+    // Ollie: I _hate_ default exports, so this one's a personal thing
+    'import/prefer-default-export': 0,
   },
 };
