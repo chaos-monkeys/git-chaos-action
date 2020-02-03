@@ -19,8 +19,6 @@ const createComment = async ({
   repo,
   issue_number: Number(issueNumber), // https://github.com/probot/probot/issues/917
   body: message,
-}).catch((error) => {
-  exit('CreateComment', error);
-});
+}).catch((error) => exit('CreateComment', error));
 
 export { createComment };
