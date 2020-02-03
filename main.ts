@@ -4,11 +4,11 @@ import { uploadHistory } from './helpers/aws';
 import { getCollaborators } from './helpers/collaborators';
 import { getCurrentTimestamp, buildHistoryIndex } from './helpers/utils';
 
-import core = require('@actions/core');
+require('dotenv').config();
 
+import core = require('@actions/core');
 import Octokit = require('@octokit/rest');
 
-require('dotenv').config();
 
 // these envs come from the github action
 const {
