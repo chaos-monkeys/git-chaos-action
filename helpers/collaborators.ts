@@ -14,9 +14,7 @@ const getCollaborators = async ({
   let allCollaborators: Collaborators = {};
   const projectCollaborators = await octokit
     .paginate('GET /repos/:owner/:repo/collaborators', { owner, repo })
-    .catch(error => {
-      exit('getCollaborators', error.message);
-    });
+    .catch((error) => exit('getCollaborators', error.message));
 
   if (!Array.isArray(projectCollaborators)) {
     exit('getCollaborators', 'Could not find collaborators');
