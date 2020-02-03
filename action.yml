@@ -12,6 +12,10 @@ inputs:
       The post-job step removes the token from the git config. [Learn more about
       creating and using encrypted secrets](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/creating-and-using-encrypted-secrets)
     default: ${{ github.token }}
+  AWS_ACCESS_KEY:
+    description: 'AWS Access Key Credential'
+  AWS_SECRET_KEY:
+    description: 'AWS Secret Key Credential'
 runs:
   using: node12
   main: dist/index.js
