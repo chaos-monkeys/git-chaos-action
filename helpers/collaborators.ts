@@ -1,6 +1,6 @@
 import * as Octokit from '@octokit/rest';
 import { exit } from './utils';
-import { Collaborator } from '../interfaces/collaborators';
+import { Collaborators } from '../interfaces/collaborators';
 
 const getCollaborators = async ({
   octokit,
@@ -10,7 +10,7 @@ const getCollaborators = async ({
   octokit: Octokit;
   owner: string;
   repo: string;
-}): Promise<Array<Collaborator>> => {
+}): Promise<Collaborators> => {
   const projectCollaborators = await octokit
     .paginate('GET /repos/:owner/:repo/collaborators', { owner, repo })
     .catch((error) => exit('getCollaborators', error.message));
@@ -20,23 +20,25 @@ const getCollaborators = async ({
     return null;
   }
 
-  return projectCollaborators.reduce((collaborators, collaborator) => {
-    const {
-      username,
-      avatar_url: avatarUrl,
-      html_url: htmlUrl,
-    } = collaborator;
+  let collaborators: Collaborators = {};
+  for (const collaborator of projectCollaborators) {
+    const collaboratorInfo = await octokit
+      .request(`GET /users/${collaborator.login}`)
+      .then(c => c.data)
+      .catch(error => exit('collaboratorInfo', error.message));
 
-    const clone = { ...collaborators };
-
-    clone[collaborator.id] = {
-      username,
-      avatar_url: avatarUrl,
-      html_url: htmlUrl,
+    collaborators[collaboratorInfo.id] = {
+      username: collaboratorInfo.login,
+      name: collaboratorInfo.name,
+      avatar_url: collaboratorInfo.avatar_url,
+      html_url: collaboratorInfo.html_url,
+      company: collaboratorInfo.company,
+      blog: collaboratorInfo.blog,
+      location: collaboratorInfo.location,
     };
+  }
 
-    return clone;
-  }, {});
+  return collaborators;
 };
 
 export { getCollaborators };
