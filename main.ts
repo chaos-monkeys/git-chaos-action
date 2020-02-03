@@ -1,9 +1,14 @@
-const Octokit = require('@octokit/rest');
-const { getCodeHistory, getBranchName } = require('./helpers/history');
-const { createComment } = require('./helpers/comment');
-const { uploadHistory } = require('./helpers/aws');
-const { getCollaborators } = require('./helpers/collaborators');
-const { getCurrentTimestamp, buildHistoryIndex } = require('./helpers/utils');
+import { getCodeHistory, getBranchName } from './helpers/history';
+import { createComment } from './helpers/comment';
+import { uploadHistory } from './helpers/aws';
+import { getCollaborators } from './helpers/collaborators';
+import { getCurrentTimestamp, buildHistoryIndex } from './helpers/utils';
+
+require('dotenv').config();
+
+import core = require('@actions/core');
+import Octokit = require('@octokit/rest');
+
 
 // these envs come from the github action
 const {
@@ -18,7 +23,7 @@ const {
 const [GIT_OWNER, GIT_REPO] = GITHUB_REPOSITORY.split('/');
 const issueNumber = GITHUB_REF.split('/')[2];
 
-const run = async () => {
+async function run(): Promise<true> {
   const octokit = new Octokit({
     auth: GITHUB_TOKEN,
   });
@@ -35,9 +40,7 @@ const run = async () => {
     }),
   });
 
-  const historyIndex = buildHistoryIndex(history);
-
-  const reponseBuilder = {
+  const body = {
     meta: {
       repo_name: GIT_REPO,
       repo_owner: GIT_OWNER,
@@ -49,18 +52,18 @@ const run = async () => {
       owner: GIT_OWNER,
       repo: GIT_REPO,
     }),
-    historyIndex,
+    historyIndex: buildHistoryIndex(history),
     history,
   };
 
   const path = await uploadHistory({
     accessKeyId: AWS_ACCESS_KEY,
     secretAccessKey: AWS_SECRET_KEY,
-    body: reponseBuilder,
+    body,
     sha: GITHUB_SHA,
   });
 
-  return createComment({
+  await createComment({
     octokit,
     owner: GIT_OWNER,
     repo: GIT_REPO,
@@ -68,6 +71,9 @@ const run = async () => {
     // TODO: update with something less 'temporary'
     message: `Git history uploaded to ${path}`,
   });
-};
+
+  core.debug('git-chaos-action completed');
+  return true;
+}
 
 run();

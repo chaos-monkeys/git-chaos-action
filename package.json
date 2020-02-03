@@ -4,30 +4,43 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "start:local": "node -r dotenv/config main.js",
-    "build": "ncc build -m main.js",
-    "debug": "node -r dotenv/config --nolazy --inspect-brk=9229 main.js"
+    "start": "ncc run ./dist/index.js",
+    "start:local": "node out/main.js",
+    "build:local": "tsc -w --p tsconfig.json",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "build": "ncc build -m main.ts"
   },
   "author": "chaos monkeys",
   "license": "ISC",
   "dependencies": {
     "@actions/core": "^1.2.0",
     "@octokit/rest": "^16.35.0",
-    "aws-sdk": "^2.590.0"
+    "aws-sdk": "^2.590.0",
+    "typescript": "^3.7.5",
+    "dotenv": "^8.2.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^8.3.5",
     "@commitlint/config-conventional": "^8.3.4",
+    "@octokit/types": "^2.1.1",
+    "@types/eslint": "^6.1.7",
+    "@types/eslint-plugin-prettier": "^2.2.0",
+    "@types/prettier": "^1.19.0",
+    "@typescript-eslint/eslint-plugin": "^2.18.0",
+    "@typescript-eslint/parser": "^2.18.0",
     "@zeit/ncc": "^0.20.5",
-    "dotenv": "^8.2.0",
-    "eslint": "^6.1.0",
+    "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.0.1",
-    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-import-resolver-typescript": "^2.0.0",
     "eslint-plugin-import": "^2.20.0",
+    "eslint-plugin-json": "^2.0.1",
     "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.18.0",
-    "eslint-plugin-react-hooks": "^1.7.0",
-    "husky": "^3.1.0"
+    "husky": "^3.1.0",
+    "prettier": "^1.19.1",
+    "typescript-eslint": "0.0.1-alpha.0"
   },
   "husky": {
     "hooks": {

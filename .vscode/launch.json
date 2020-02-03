@@ -7,11 +7,12 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Launch via NPM",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run-script", "debug"],
-      "port": 9229,
-      "skipFiles": ["<node_internals>/**"]
+      "name": "Launch Program",
+      "program": "${workspaceFolder}/out/main.js",
+      "preLaunchTask": "tsc: build - tsconfig.json",
+      "outFiles": [
+        "${workspaceFolder}/out"
+      ]
     }
   ]
 }
