@@ -1,5 +1,5 @@
 export interface Collaborator {
-  usernam: string;
+  username: string;
   avatar_url: string;
   html_url: string;
 }
