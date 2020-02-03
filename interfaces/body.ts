@@ -1,4 +1,4 @@
-import { Collaborator } from './collaborators';
+import { Collaborators } from './collaborators';
 
 export interface Meta {
   repo_name: string;
@@ -80,7 +80,7 @@ export interface History {
 
 export interface Body {
   meta: Meta;
-  collaborators: Array<Collaborator>;
+  collaborators: Collaborators;
   historyIndex: HistoryIndex;
   history: History[];
 }
