@@ -1,6 +1,4 @@
 import * as Octokit from '@octokit/rest';
-// FIXME: I _think_ if I find the right Octokit type, I can remove this
-import { RawCommit } from '../interfaces/commit';
 import { exit } from './utils';
 
 import querystring = require('querystring');
@@ -15,7 +13,7 @@ const getCommits = async ({
   owner: string;
   repo: string;
   sha: string;
-}): Promise<Array<RawCommit>> => {
+}): Promise<Array<Octokit.ReposGetCommitResponse>> => {
   const qs = querystring.stringify({ sha });
 
   // by using a query string that's the name of a branch - we can get all the commits
