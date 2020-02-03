@@ -11,7 +11,6 @@ const getCollaborators = async ({
   owner: string;
   repo: string;
 }): Promise<Collaborators> => {
-  let allCollaborators: Collaborators = {};
   const projectCollaborators = await octokit
     .paginate('GET /repos/:owner/:repo/collaborators', { owner, repo })
     .catch(error => {
@@ -23,15 +22,14 @@ const getCollaborators = async ({
     return null;
   }
 
+  let collaborators: Collaborators = {};
   for (const collaborator of projectCollaborators) {
     const collaboratorInfo = await octokit
       .request(`GET /users/${collaborator.login}`)
       .then(c => c.data)
-      .catch(error => {
-        exit('collaboratorInfo', error.message);
-      });
+      .catch(error => exit('collaboratorInfo', error.message));
 
-    allCollaborators[collaboratorInfo.id] = {
+    collaborators[collaboratorInfo.id] = {
       username: collaboratorInfo.login,
       name: collaboratorInfo.name,
       avatar_url: collaboratorInfo.avatar_url,
@@ -42,7 +40,7 @@ const getCollaborators = async ({
     };
   }
 
-  return allCollaborators;
+  return collaborators;
 };
 
 export { getCollaborators };
