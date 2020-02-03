@@ -24,10 +24,7 @@ const getBranchName = async ({
         owner,
         repo,
         state: 'open',
-      })
-      .catch((error) => {
-        exit('pullRequests', error.message);
-      });
+      }).catch((error) => exit('pullRequests', error.message));
 
     if (!pullRequests || !pullRequests.data) {
       throw new Error('could not find pull request');
@@ -67,10 +64,7 @@ const getCodeHistory = async ({
         owner,
         repo,
         branch: envBranch,
-      })
-      .catch((error) => {
-        exit('getBranch', error.message);
-      });
+      }).catch((error) => exit('getBranch', error.message));
 
     if (!branch || !branch.data.name) {
       throw new Error('could not find branch');
@@ -82,9 +76,7 @@ const getCodeHistory = async ({
       owner,
       repo,
       sha: branch.data.name,
-    }).catch((error) => {
-      exit('getCommits', error.message);
-    });
+    }).catch((error) => exit('getCommits', error.message));
 
     if (!Array.isArray(commits)) {
       throw new Error('could not find commits');

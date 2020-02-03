@@ -1,10 +1,10 @@
-import {
-  RawCommit, File, Stats, Author2, Committer2,
-} from '../interfaces/commit';
+import * as Octokit from '@octokit/rest';
 import { ParsedFile } from '../interfaces/parser';
 import { FormattedCommit } from '../interfaces/formattedCommit';
 
-const parseFiles = (commit: RawCommit): Array<ParsedFile> => commit.files.map((file: File) => ({
+const parseFiles = (
+  commit: Octokit.ReposGetCommitResponse,
+): Array<ParsedFile> => commit.files.map((file) => ({
   filename: file.filename,
   status: file.status,
   additions: file.additions,
@@ -13,17 +13,29 @@ const parseFiles = (commit: RawCommit): Array<ParsedFile> => commit.files.map((f
   raw_url: file.raw_url,
 }));
 
-const parseStats = (commit: RawCommit): Stats => commit.stats;
+const parseStats = (
+  commit: Octokit.ReposGetCommitResponse,
+): Octokit.ReposGetCommitResponseStats => commit.stats;
 
-const parseMessage = (commit: RawCommit): string => commit.commit.message;
+const parseMessage = (
+  commit: Octokit.ReposGetCommitResponse,
+): string => commit.commit.message;
 
-const parseUrl = (commit: RawCommit): string => commit.commit.url;
+const parseUrl = (
+  commit: Octokit.ReposGetCommitResponse,
+): string => commit.commit.url;
 
-const parseAuthor = (commit: RawCommit): Author2 => commit.author;
+const parseAuthor = (
+  commit: Octokit.ReposGetCommitResponse,
+): Octokit.ReposGetCommitResponseAuthor => commit.author;
 
-const parseCommitter = (commit: RawCommit): Committer2 => commit.committer;
+const parseCommitter = (
+  commit: Octokit.ReposGetCommitResponse,
+): Octokit.ReposGetCommitResponseCommitter => commit.committer;
 
-const formatCommits = (commit: RawCommit): FormattedCommit => ({
+const formatCommits = (
+  commit: Octokit.ReposGetCommitResponse,
+): FormattedCommit => ({
   sha: commit.sha,
   author: parseAuthor(commit),
   committer: parseCommitter(commit),
