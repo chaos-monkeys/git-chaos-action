@@ -22,9 +22,7 @@ const getCommits = async ({
   // BUT the commits are missing some data, so we will need to re-get them one-by-one
   const commits = await octokit
     .paginate(`GET /repos/:owner/:repo/commits?${qs}`, { owner, repo })
-    .catch((error) => {
-      exit('getAllCommits', error.message);
-    });
+    .catch((error) => exit('getAllCommits', error.message));
 
   if (!Array.isArray(commits)) {
     exit('getCommits', 'Unable to find commits');
@@ -35,9 +33,7 @@ const getCommits = async ({
   const detailedCommits = commits.map((commit) => octokit
     .request(`GET /repos/:owner/:repo/commits/${commit.sha}`, { owner, repo })
     .then((c) => c.data)
-    .catch((error) => {
-      exit('detailedCommits', error.message);
-    }));
+    .catch((error) => exit('detailedCommits', error.message)));
 
   // make sure all the requests have finished before returning
   return Promise.all(detailedCommits);
