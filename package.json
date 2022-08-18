@@ -13,7 +13,7 @@
   "author": "chaos monkeys",
   "license": "ISC",
   "dependencies": {
-    "@actions/core": "^1.2.0",
+    "@actions/core": "^1.9.1",
     "@octokit/rest": "^16.35.0",
     "aws-sdk": "^2.590.0",
     "typescript": "^3.7.5",
